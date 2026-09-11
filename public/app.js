@@ -91,20 +91,23 @@ const loadingText = document.getElementById('loadingText');
 const toast = document.getElementById('toast');
 const toastMsg = document.getElementById('toastMsg');
 
-// 1. Main Navigation Tabs
-tabSkybound.addEventListener('click', () => {
-  tabSkybound.classList.add('active');
-  tabCustomExtract.classList.remove('active');
-  skyboundView.classList.remove('hidden');
-  customExtractView.classList.add('hidden');
-});
+// 1. Main Navigation Tabs (if present)
+if (tabSkybound && tabCustomExtract) {
+  tabSkybound.addEventListener('click', () => {
+    tabSkybound.classList.add('active');
+    tabCustomExtract.classList.remove('active');
+    if (skyboundView) skyboundView.classList.remove('hidden');
+    if (customExtractView) customExtractView.classList.add('hidden');
+  });
 
-tabCustomExtract.addEventListener('click', () => {
-  tabCustomExtract.classList.add('active');
-  tabSkybound.classList.remove('active');
-  customExtractView.classList.remove('hidden');
-  skyboundView.classList.add('hidden');
-});
+  tabCustomExtract.addEventListener('click', () => {
+    tabCustomExtract.classList.add('active');
+    tabSkybound.classList.remove('active');
+    if (customExtractView) customExtractView.classList.remove('hidden');
+    if (skyboundView) skyboundView.classList.add('hidden');
+  });
+}
+
 
 // 2. Simulator Selector Cards
 const SIM_NAMES = {
@@ -470,61 +473,7 @@ function createAddonCard(d) {
     `;
   }
 
-  // 2. Article & Features Section
-  let articleHtml = '';
-  const hasDesc = Array.isArray(d.description) && d.description.length > 0;
-  const hasFeatures = Array.isArray(d.features) && d.features.length > 0;
-  const hasChangelog = Array.isArray(d.changelog) && d.changelog.length > 0;
-
-  if (hasDesc || hasFeatures || hasChangelog) {
-    const excerpt = hasDesc ? escapeHtml(d.description[0]) : '';
-    const otherParas = hasDesc ? d.description.slice(1).map(p => `<p class="addon-paragraph">${escapeHtml(p)}</p>`).join('') : '';
-
-    let featuresBlock = '';
-    if (hasFeatures) {
-      const items = d.features.map(f => `
-        <div class="feature-item">
-          <span class="feature-check">✓</span>
-          <span>${escapeHtml(f)}</span>
-        </div>
-      `).join('');
-      featuresBlock = `
-        <div class="addon-features-box">
-          <div class="features-title">✨ Tính năng nổi bật & Mô phỏng</div>
-          <div class="features-grid">${items}</div>
-        </div>
-      `;
-    }
-
-    let changelogBlock = '';
-    if (hasChangelog) {
-      const logs = d.changelog.map(c => `<div>${escapeHtml(c)}</div>`).join('');
-      changelogBlock = `
-        <div class="addon-changelog-box">
-          <div class="changelog-title">🔄 Lịch sử cập nhật</div>
-          <div>${logs}</div>
-        </div>
-      `;
-    }
-
-    articleHtml = `
-      <div class="addon-article-box">
-        ${excerpt ? `<div class="addon-excerpt">${excerpt}</div>` : ''}
-        <button class="btn-toggle-article" id="btn-toggle-${escapeQuotes(d.slug)}" onclick="toggleArticle('${escapeQuotes(d.slug)}')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          <span id="label-toggle-${escapeQuotes(d.slug)}">Xem chi tiết bài viết & Tính năng</span>
-          <svg class="article-arrow" id="arrow-toggle-${escapeQuotes(d.slug)}" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </button>
-        <div class="article-full-content" id="article-full-${escapeQuotes(d.slug)}">
-          ${otherParas}
-          ${featuresBlock}
-          ${changelogBlock}
-        </div>
-      </div>
-    `;
-  }
-
-  // 3. Versions list
+  // 2. Versions list
   let versionsHtml = '';
   if (validVersions.length > 0) {
     versionsHtml = validVersions.map(v => {
@@ -558,7 +507,7 @@ function createAddonCard(d) {
     `;
   }
 
-  // 4. Extra links
+  // 3. Extra links
   let extraHtml = '';
   if (d.extra_links && d.extra_links.length > 0) {
     const pills = d.extra_links.map(l => {
@@ -589,7 +538,7 @@ function createAddonCard(d) {
   card.innerHTML = `
     ${coverHtml}
     <div class="addon-card-header">
-      <div>
+      <div style="width: 100%;">
         <div class="addon-title">${escapeHtml(d.title)}</div>
         <div class="addon-meta">
           <span class="badge badge-sim">${escapeHtml(simBadgeText)}</span>
@@ -598,21 +547,21 @@ function createAddonCard(d) {
           <span style="font-size: 0.75rem; color: #64748b; font-family: monospace;">${escapeHtml(d.slug || '')}</span>
         </div>
       </div>
-      <div class="password-box">
+    </div>
+    <div class="addon-card-body">
+      <div class="versions-title">Danh sách Link Download</div>
+      <div class="versions-list">${versionsHtml}</div>
+      <div class="password-box" style="margin-top: 14px; width: fit-content;">
         <span class="password-label">Pass:</span>
         <span class="password-value">${escapeHtml(d.password || 'https://skybound.cx')}</span>
         <button class="btn-icon-copy" title="Sao chép mật khẩu" onclick="copyText('${escapeQuotes(d.password || 'https://skybound.cx')}')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         </button>
       </div>
-    </div>
-    <div class="addon-card-body">
-      ${articleHtml}
-      <div class="versions-title">Danh sách Link Download</div>
-      <div class="versions-list">${versionsHtml}</div>
       ${extraHtml}
     </div>
   `;
+
 
   return card;
 }

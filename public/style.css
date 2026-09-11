@@ -70,13 +70,15 @@ body {
 .app-container {
   position: relative;
   z-index: 1;
-  max-width: 1020px;
+  max-width: 1440px;
+  width: 95%;
   margin: 0 auto;
-  padding: 36px 24px 60px;
+  padding: 32px 20px 60px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 26px;
 }
+
 
 /* Header */
 .app-header {
@@ -208,17 +210,6 @@ body {
   overflow: hidden;
 }
 
-.sim-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: transparent;
-  transition: var(--transition);
-}
-
 .sim-card:hover {
   background: rgba(24, 32, 54, 0.85);
   border-color: rgba(99, 102, 241, 0.35);
@@ -231,9 +222,6 @@ body {
   box-shadow: 0 10px 25px -10px var(--primary-glow);
 }
 
-.sim-card.active::before {
-  background: linear-gradient(90deg, var(--primary) 0%, var(--cyan) 100%);
-}
 
 .sim-card-header {
   display: flex;
