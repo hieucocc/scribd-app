@@ -345,169 +345,87 @@ body {
   color: #fff;
 }
 
-/* Content Layout (Sidebar + Main Area) */
-.skybound-content-layout {
+/* Filter Chips (Placed under search box) */
+.filter-chips {
   display: flex;
-  gap: 24px;
-  align-items: flex-start;
-  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
 }
 
-.skybound-sidebar {
-  width: 250px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: sticky;
-  top: 20px;
-}
-
-.skybound-main-area {
-  flex: 1;
-  min-width: 0;
-}
-
-/* Categories Box (Exact Match to Screenshot) */
-.categories-panel {
-  background: #131b26;
-  border: 1.5px solid #2d4257;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
-}
-
-.categories-panel-header {
-  padding: 14px 18px;
-  font-family: inherit;
+.chip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #8da2b5;
   font-size: 0.82rem;
-  font-weight: 800;
-  color: #5d7e95;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-bottom: 1.5px solid #223344;
-  user-select: none;
-}
-
-.categories-panel-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.category-panel-btn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 13px 18px;
-  background: transparent;
-  border: none;
-  border-bottom: 1px solid #1a2736;
-  color: #5d7e95;
-  cursor: pointer;
-  text-align: left;
-  transition: background 0.15s ease, color 0.15s ease;
-  font-family: inherit;
-}
-
-.category-panel-btn:last-child {
-  border-bottom: none;
-}
-
-.category-panel-btn .cat-label {
-  font-size: 0.92rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #5f8097;
-  transition: color 0.15s ease;
-}
-
-.category-panel-btn .cat-badge {
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: #4b667a;
-  transition: color 0.15s ease;
-}
-
-.category-panel-btn:hover {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-.category-panel-btn:hover .cat-label {
-  color: #8faec4;
-}
-
-.category-panel-btn:hover .cat-badge {
-  color: #6d8c9f;
-}
-
-.category-panel-btn.active {
-  background: #283a4c;
-}
-
-.category-panel-btn.active .cat-label {
-  color: #ffffff;
-}
-
-.category-panel-btn.active .cat-badge {
-  color: #9bb7cb;
-}
-
-/* Quick Filter: Có link tải ngay */
-.btn-filter-direct {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 18px;
-  background: rgba(16, 185, 129, 0.08);
-  border: 1.5px solid rgba(16, 185, 129, 0.3);
-  border-radius: 4px;
-  color: #34d399;
-  font-size: 0.85rem;
   font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   font-family: inherit;
 }
 
-.btn-filter-direct:hover {
-  background: rgba(16, 185, 129, 0.16);
-  border-color: rgba(16, 185, 129, 0.5);
-  color: #6ee7b7;
-}
-
-.btn-filter-direct.active {
-  background: #10b981;
-  border-color: #10b981;
+.chip:hover {
+  background: rgba(255, 255, 255, 0.09);
   color: #ffffff;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
-.btn-filter-direct .direct-count {
-  font-size: 0.78rem;
-  padding: 2px 8px;
+.chip.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  box-shadow: 0 4px 14px var(--primary-glow);
+}
+
+.chip .chip-count {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 7px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.12);
+  color: #94a3b8;
+  line-height: 1.2;
+}
+
+.chip.active .chip-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.chip.chip-highlight {
+  border-color: rgba(16, 185, 129, 0.4);
   color: #34d399;
 }
 
-.btn-filter-direct.active .direct-count {
-  background: rgba(255, 255, 255, 0.25);
-  color: #fff;
+.chip.chip-highlight:hover {
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.55);
 }
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .skybound-content-layout {
-    flex-direction: column;
-  }
-  .skybound-sidebar {
-    width: 100%;
-    position: static;
-  }
+.chip.chip-highlight .chip-count {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
 }
+
+.chip.chip-highlight.active {
+  background: var(--emerald);
+  border-color: var(--emerald);
+  color: #ffffff;
+  box-shadow: 0 4px 14px var(--emerald-glow);
+}
+
+.chip.chip-highlight.active .chip-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
 
 
 /* Extraction Status Report Banner */

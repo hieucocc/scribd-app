@@ -21,7 +21,6 @@ const countXplane12 = document.getElementById('countXplane12');
 const catalogSearchInput = document.getElementById('catalogSearchInput');
 const btnClearSearch = document.getElementById('btnClearSearch');
 const categoryFilterChips = document.getElementById('categoryFilterChips');
-const btnFilterDirect = document.getElementById('btnFilterDirect');
 
 
 const activeSimLabel = document.getElementById('activeSimLabel');
@@ -141,25 +140,18 @@ btnClearSearch.addEventListener('click', () => {
   renderCards();
 });
 
-// 4. Category Filter Buttons & Direct Download Toggle
+// 4. Category Filter Chips
 if (categoryFilterChips) {
-  categoryFilterChips.querySelectorAll('.category-panel-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      categoryFilterChips.querySelectorAll('.category-panel-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentCatFilter = btn.getAttribute('data-cat') || 'all';
+  categoryFilterChips.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      categoryFilterChips.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      currentCatFilter = chip.getAttribute('data-cat') || 'all';
       renderCards();
     });
   });
 }
 
-if (btnFilterDirect) {
-  btnFilterDirect.addEventListener('click', () => {
-    filterOnlyDirect = !filterOnlyDirect;
-    btnFilterDirect.classList.toggle('active', filterOnlyDirect);
-    renderCards();
-  });
-}
 
 
 // 5. Presets in Custom Extract tab
@@ -394,22 +386,22 @@ function renderCards() {
   const simAddons = allAddons.filter(item => item.sim === currentSim);
   updateCategoryCounts(simAddons);
 
-  // Filter by Search, Category, and Direct Links
+  // Filter by Search and Category
   const filtered = simAddons.filter(item => {
     const title = (item.title || '').toLowerCase();
     const slug = (item.slug || '').toLowerCase();
     const matchQuery = !query || title.includes(query) || slug.includes(query);
 
-    const itemCat = getItemCategory(item);
     let matchCat = true;
-    if (currentCatFilter !== 'all') {
-      matchCat = (itemCat === currentCatFilter);
+    if (currentCatFilter === 'has_links') {
+      matchCat = hasValidLinks(item);
+    } else if (currentCatFilter !== 'all') {
+      matchCat = (getItemCategory(item) === currentCatFilter);
     }
 
-    const matchDirect = !filterOnlyDirect || hasValidLinks(item);
-
-    return matchQuery && matchCat && matchDirect;
+    return matchQuery && matchCat;
   });
+
 
   filteredAddons = filtered;
   currentPage = 1;

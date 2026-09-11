@@ -81,145 +81,113 @@
           </div>
         </div>
 
-        <!-- Content Layout: Sidebar + Main Grid -->
-        <div class="skybound-content-layout">
-          <!-- Sidebar: CATEGORIES Panel -->
-          <aside class="skybound-sidebar">
-            <div class="categories-panel" id="categoriesPanel">
-              <div class="categories-panel-header">
-                CATEGORIES
-              </div>
-              <div class="categories-panel-list" id="categoryFilterChips">
-                <button class="category-panel-btn active" data-cat="all" type="button">
-                  <span class="cat-label">ALL ADDONS</span>
-                  <span class="cat-badge" id="countCatAll">88</span>
-                </button>
-                <button class="category-panel-btn" data-cat="aircraft" type="button">
-                  <span class="cat-label">AIRCRAFT</span>
-                  <span class="cat-badge" id="countCatAircraft">70</span>
-                </button>
-                <button class="category-panel-btn" data-cat="misc" type="button">
-                  <span class="cat-label">MISC</span>
-                  <span class="cat-badge" id="countCatMisc">8</span>
-                </button>
-                <button class="category-panel-btn" data-cat="scenery" type="button">
-                  <span class="cat-label">SCENERY</span>
-                  <span class="cat-badge" id="countCatScenery">4</span>
-                </button>
-                <button class="category-panel-btn" data-cat="utilities" type="button">
-                  <span class="cat-label">UTILITIES</span>
-                  <span class="cat-badge" id="countCatUtilities">6</span>
-                </button>
-              </div>
-            </div>
+        <!-- Search & Filter Controls -->
+        <div class="search-filter-card card">
+          <div class="search-box-wrapper">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input 
+              type="text" 
+              id="catalogSearchInput" 
+              class="search-input-field" 
+              placeholder="Tìm kiếm máy bay, addon hoặc nhà phát triển (vd: PMDG, 737, Fenix, Learjet, TBM, ToLiss...)" 
+              spellcheck="false" 
+              autocomplete="off"
+            />
+            <button id="btnClearSearch" class="btn-clear-search hidden" type="button" title="Xoá tìm kiếm">✕</button>
+          </div>
 
-            <!-- Quick Filter: Có link tải ngay -->
-            <button class="btn-filter-direct" id="btnFilterDirect" type="button" title="Chỉ lọc các addon có link tải trực tiếp">
-              <span>🔥 Có link tải ngay</span>
-              <span class="direct-count" id="countDirectLinks">24</span>
-            </button>
-          </aside>
+          <!-- Category Filter Chips (Under Search Box) -->
+          <div id="categoryFilterChips" class="filter-chips">
+            <button class="chip active" data-cat="all" type="button">ALL ADDONS <span class="chip-count" id="countCatAll">88</span></button>
+            <button class="chip" data-cat="aircraft" type="button">AIRCRAFT <span class="chip-count" id="countCatAircraft">70</span></button>
+            <button class="chip" data-cat="misc" type="button">MISC <span class="chip-count" id="countCatMisc">8</span></button>
+            <button class="chip" data-cat="scenery" type="button">SCENERY <span class="chip-count" id="countCatScenery">4</span></button>
+            <button class="chip" data-cat="utilities" type="button">UTILITIES <span class="chip-count" id="countCatUtilities">6</span></button>
+            <button class="chip chip-highlight" data-cat="has_links" type="button">🔥 Có link tải ngay <span class="chip-count" id="countDirectLinks">24</span></button>
+          </div>
+        </div>
 
-          <!-- Main Content Area -->
-          <div class="skybound-main-area">
-            <!-- Search Control -->
-            <div class="search-filter-card card">
-              <div class="search-box-wrapper">
-                <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        <!-- Extraction Status Report Banner -->
+        <div class="report-banner card" id="reportBanner">
+          <div class="report-summary" id="reportToggle">
+            <div class="report-left">
+              <div class="report-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
                 </svg>
-                <input 
-                  type="text" 
-                  id="catalogSearchInput" 
-                  class="search-input-field" 
-                  placeholder="Tìm kiếm máy bay, addon hoặc nhà phát triển (vd: PMDG, 737, Fenix, Learjet, TBM, ToLiss...)" 
-                  spellcheck="false" 
-                  autocomplete="off"
-                />
-                <button id="btnClearSearch" class="btn-clear-search hidden" type="button" title="Xoá tìm kiếm">✕</button>
               </div>
-            </div>
-
-            <!-- Extraction Status Report Banner -->
-            <div class="report-banner card" id="reportBanner">
-              <div class="report-summary" id="reportToggle">
-                <div class="report-left">
-                  <div class="report-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <line x1="18" y1="20" x2="18" y2="10"></line>
-                      <line x1="12" y1="20" x2="12" y2="4"></line>
-                      <line x1="6" y1="20" x2="6" y2="14"></line>
-                    </svg>
-                  </div>
-                  <div>
-                    <div class="report-headline">
-                      Báo cáo trích xuất: <strong id="reportRatio" style="color: #34d399;">24 / 88 addon lấy được link</strong>
-                    </div>
-                    <div class="report-sub" id="reportSubtext">
-                      24 addon có link tải trực tiếp • 64 addon yêu cầu đăng nhập trên Skybound
-                    </div>
-                  </div>
+              <div>
+                <div class="report-headline">
+                  Báo cáo trích xuất: <strong id="reportRatio" style="color: #34d399;">24 / 88 addon lấy được link</strong>
                 </div>
-                <button class="btn-report-toggle" type="button" id="btnToggleReport">
-                  <span id="reportToggleText">Xem chi tiết</span>
-                  <svg class="arrow-icon" id="reportArrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
-              </div>
-
-              <!-- Collapsible Detail Section -->
-              <div class="report-details hidden" id="reportDetails">
-                <div class="report-columns">
-                  <!-- Column 1: Got Links -->
-                  <div class="report-col col-success">
-                    <div class="col-header">
-                      <span class="col-dot dot-green"></span>
-                      <span class="col-title">Lấy được link tải (<span id="countSuccess">0</span>)</span>
-                    </div>
-                    <div class="report-items-scroll" id="listSuccess"></div>
-                  </div>
-
-                  <!-- Column 2: Locked / No links -->
-                  <div class="report-col col-locked">
-                    <div class="col-header">
-                      <span class="col-dot dot-gray"></span>
-                      <span class="col-title">Khóa đăng nhập Clerk (<span id="countLocked">0</span>)</span>
-                    </div>
-                    <div class="report-items-scroll" id="listLocked"></div>
-                  </div>
+                <div class="report-sub" id="reportSubtext">
+                  24 addon có link tải trực tiếp • 64 addon yêu cầu đăng nhập trên Skybound
                 </div>
               </div>
             </div>
+            <button class="btn-report-toggle" type="button" id="btnToggleReport">
+              <span id="reportToggleText">Xem chi tiết</span>
+              <svg class="arrow-icon" id="reportArrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          </div>
 
-            <!-- Addons Results Header -->
-            <div class="results-header-bar">
-              <div class="results-info">
-                <h2 class="section-title">Danh sách bài viết (<span id="resultsCount">0</span>)</h2>
-                <span class="active-sim-badge" id="activeSimLabel">MSFS 2024</span>
+          <!-- Collapsible Detail Section -->
+          <div class="report-details hidden" id="reportDetails">
+            <div class="report-columns">
+              <!-- Column 1: Got Links -->
+              <div class="report-col col-success">
+                <div class="col-header">
+                  <span class="col-dot dot-green"></span>
+                  <span class="col-title">Lấy được link tải (<span id="countSuccess">0</span>)</span>
+                </div>
+                <div class="report-items-scroll" id="listSuccess"></div>
               </div>
-              <div class="results-actions">
-                <button id="btnCopyAllRaw" class="btn-secondary" type="button" title="Sao chép toàn bộ link đang hiển thị">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                  Sao chép tất cả link
-                </button>
+
+              <!-- Column 2: Locked / No links -->
+              <div class="report-col col-locked">
+                <div class="col-header">
+                  <span class="col-dot dot-gray"></span>
+                  <span class="col-title">Khóa đăng nhập Clerk (<span id="countLocked">0</span>)</span>
+                </div>
+                <div class="report-items-scroll" id="listLocked"></div>
               </div>
-            </div>
-
-            <!-- Cards Grid -->
-            <div id="cardsGrid" class="cards-grid">
-              <!-- Dynamically populated -->
-            </div>
-
-            <!-- Pagination Controls -->
-            <div id="paginationControls" class="pagination-controls hidden">
-              <button id="btnPrevPage" class="btn-secondary" type="button" disabled>Trang trước</button>
-              <span id="pageInfo" class="page-info">Trang 1 / 1</span>
-              <button id="btnNextPage" class="btn-secondary" type="button">Trang sau</button>
             </div>
           </div>
         </div>
+
+        <!-- Addons Results Header -->
+        <div class="results-header-bar">
+          <div class="results-info">
+            <h2 class="section-title">Danh sách bài viết (<span id="resultsCount">0</span>)</h2>
+            <span class="active-sim-badge" id="activeSimLabel">MSFS 2024</span>
+          </div>
+          <div class="results-actions">
+            <button id="btnCopyAllRaw" class="btn-secondary" type="button" title="Sao chép toàn bộ link đang hiển thị">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              Sao chép tất cả link
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div id="cardsGrid" class="cards-grid">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Pagination Controls -->
+        <div id="paginationControls" class="pagination-controls hidden">
+          <button id="btnPrevPage" class="btn-secondary" type="button" disabled>Trang trước</button>
+          <span id="pageInfo" class="page-info">Trang 1 / 1</span>
+          <button id="btnNextPage" class="btn-secondary" type="button">Trang sau</button>
+        </div>
+
       </section>
 
       <!-- VIEW 2: CUSTOM SINGLE EXTRACT -->
