@@ -536,8 +536,8 @@ function createAddonCard(d) {
   card.innerHTML = `
     ${coverHtml}
     <div class="addon-card-header">
-      <div style="width: 100%;">
-        <div class="addon-title">${escapeHtml(d.title)}</div>
+      <div style="width: 100%; min-width: 0; overflow: hidden;">
+        <div class="addon-title" title="${escapeHtml(d.title)}">${escapeHtml(d.title)}</div>
         <div class="addon-meta">
           <span class="badge badge-sim">${escapeHtml(simBadgeText)}</span>
           <span class="badge" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); text-transform: uppercase; font-size: 0.72rem; font-weight: 700;">${escapeHtml(catName)}</span>
@@ -646,5 +646,93 @@ function escapeQuotes(str) {
   return str.replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
 
-// Start
-initApp();
+// --- Authentication Gate ---
+const AUTH_USER = 'admin';
+const AUTH_PASS = 'thunghiem123#$H';
+const AUTH_STORAGE_KEY = 'skybound_admin_auth_v1';
+
+const authModalOverlay = document.getElementById('authModalOverlay');
+const authForm = document.getElementById('authForm');
+const authUsername = document.getElementById('authUsername');
+const authPassword = document.getElementById('authPassword');
+const authErrorMsg = document.getElementById('authErrorMsg');
+const authErrorText = document.getElementById('authErrorText');
+const btnToggleAuthPwd = document.getElementById('btnToggleAuthPwd');
+const eyeOpenIcon = document.getElementById('eyeOpenIcon');
+const eyeClosedIcon = document.getElementById('eyeClosedIcon');
+const userBadge = document.getElementById('userBadge');
+const btnLogout = document.getElementById('btnLogout');
+
+function isAuthenticated() {
+  return localStorage.getItem(AUTH_STORAGE_KEY) === 'authenticated_admin';
+}
+
+function showAuthModal() {
+  if (authModalOverlay) {
+    authModalOverlay.classList.remove('hidden');
+    if (authErrorMsg) authErrorMsg.classList.add('hidden');
+    if (authUsername) {
+      authUsername.value = '';
+      setTimeout(() => authUsername.focus(), 150);
+    }
+    if (authPassword) authPassword.value = '';
+  }
+  if (userBadge) userBadge.classList.add('hidden');
+}
+
+function hideAuthModal() {
+  if (authModalOverlay) {
+    authModalOverlay.classList.add('hidden');
+  }
+  if (userBadge) userBadge.classList.remove('hidden');
+}
+
+if (btnToggleAuthPwd) {
+  btnToggleAuthPwd.addEventListener('click', () => {
+    const isPwd = authPassword.type === 'password';
+    authPassword.type = isPwd ? 'text' : 'password';
+    if (eyeOpenIcon) eyeOpenIcon.classList.toggle('hidden', isPwd);
+    if (eyeClosedIcon) eyeClosedIcon.classList.toggle('hidden', !isPwd);
+  });
+}
+
+if (authForm) {
+  authForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const u = (authUsername.value || '').trim();
+    const p = authPassword.value || '';
+
+    if (u === AUTH_USER && p === AUTH_PASS) {
+      localStorage.setItem(AUTH_STORAGE_KEY, 'authenticated_admin');
+      hideAuthModal();
+      showToast("Đăng nhập thành công! Chào mừng admin.");
+      if (allAddons.length === 0) {
+        initApp();
+      }
+    } else {
+      if (authErrorMsg) authErrorMsg.classList.remove('hidden');
+      authPassword.value = '';
+      authPassword.focus();
+    }
+  });
+}
+
+if (btnLogout) {
+  btnLogout.addEventListener('click', () => {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    allAddons = [];
+    filteredAddons = [];
+    cardsGrid.innerHTML = '';
+    showAuthModal();
+    showToast("Đã đăng xuất khỏi hệ thống.");
+  });
+}
+
+// Initial Boot Check
+if (isAuthenticated()) {
+  hideAuthModal();
+  initApp();
+} else {
+  showAuthModal();
+}
+
