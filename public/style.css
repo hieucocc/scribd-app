@@ -944,45 +944,49 @@ body {
 
 /* Password Box */
 .password-box {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 0.82rem;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   flex-shrink: 0;
+  vertical-align: middle;
 }
 
 .password-label {
-  color: var(--text-sub);
-  font-size: 0.75rem;
+  color: #94a3b8;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .password-value {
   font-family: monospace;
   color: #f59e0b;
   font-weight: 600;
+  font-size: 0.75rem;
 }
 
 .btn-icon-copy {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+  color: #94a3b8;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  padding: 2px;
+  justify-content: center;
+  padding: 1px 3px;
   border-radius: 4px;
   transition: var(--transition);
 }
 
 .btn-icon-copy:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 /* Card Body */

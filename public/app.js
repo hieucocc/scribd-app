@@ -463,15 +463,17 @@ function createAddonCard(d) {
   const hasLinks = validVersions.length > 0 || (d.extra_links && d.extra_links.length > 0);
 
   // 1. Cover Image Banner
-  let coverHtml = '';
-  if (d.image) {
-    coverHtml = `
-      <div class="addon-cover-wrapper">
-        <img src="${escapeHtml(d.image)}" class="addon-cover-img" alt="${escapeHtml(d.title)}" loading="lazy" onerror="this.closest('.addon-cover-wrapper').style.display='none';">
-        <div class="addon-cover-overlay"></div>
-      </div>
-    `;
-  }
+  const DEFAULT_THUMBNAIL = 'https://web.archive.org/web/20260519175530im_/https://skybound.cx/api/media/file/a2a-aerostar-600-1400x777.webp';
+  const imgUrl = (d.image && typeof d.image === 'string' && d.image.trim().startsWith('http'))
+    ? d.image.trim()
+    : DEFAULT_THUMBNAIL;
+
+  const coverHtml = `
+    <div class="addon-cover-wrapper">
+      <img src="${escapeHtml(imgUrl)}" class="addon-cover-img" alt="${escapeHtml(d.title)}" loading="lazy" onerror="this.onerror=null; this.src='${DEFAULT_THUMBNAIL}';">
+      <div class="addon-cover-overlay"></div>
+    </div>
+  `;
 
   // 2. Versions list
   let versionsHtml = '';
@@ -544,6 +546,13 @@ function createAddonCard(d) {
           <span class="badge badge-sim">${escapeHtml(simBadgeText)}</span>
           <span class="badge" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); text-transform: uppercase; font-size: 0.72rem; font-weight: 700;">${escapeHtml(catName)}</span>
           ${statusBadge}
+          <div class="password-box">
+            <span class="password-label">Pass:</span>
+            <span class="password-value">${escapeHtml(d.password || 'https://skybound.cx')}</span>
+            <button class="btn-icon-copy" title="Sao chép mật khẩu" onclick="copyText('${escapeQuotes(d.password || 'https://skybound.cx')}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+          </div>
           <span style="font-size: 0.75rem; color: #64748b; font-family: monospace;">${escapeHtml(d.slug || '')}</span>
         </div>
       </div>
@@ -551,13 +560,6 @@ function createAddonCard(d) {
     <div class="addon-card-body">
       <div class="versions-title">Danh sách Link Download</div>
       <div class="versions-list">${versionsHtml}</div>
-      <div class="password-box" style="margin-top: 14px; width: fit-content;">
-        <span class="password-label">Pass:</span>
-        <span class="password-value">${escapeHtml(d.password || 'https://skybound.cx')}</span>
-        <button class="btn-icon-copy" title="Sao chép mật khẩu" onclick="copyText('${escapeQuotes(d.password || 'https://skybound.cx')}')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        </button>
-      </div>
       ${extraHtml}
     </div>
   `;
