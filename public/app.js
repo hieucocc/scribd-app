@@ -176,10 +176,10 @@ async function triggerCustomExtract() {
 async function initApp() {
   setLoading(true, "Đang tải dữ liệu kho lưu trữ Skybound...");
   try {
-    const resp = await fetch('/api/catalog/cached-all');
+    const resp = await fetch('/extracted_cache.json');
     if (resp.ok) {
       const data = await resp.json();
-      allAddons = data.results || [];
+      allAddons = data.results || Object.values(data) || [];
       
       // Normalize sim field
       allAddons.forEach(item => {
