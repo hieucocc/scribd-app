@@ -3,6 +3,7 @@ let allAddons = [];
 let filteredAddons = [];
 let currentSim = 'msfs-2024';
 let currentCatFilter = 'all';
+let filterOnlyDirect = false;
 let currentPage = 1;
 const ITEMS_PER_PAGE = 6;
 
@@ -20,6 +21,8 @@ const countXplane12 = document.getElementById('countXplane12');
 const catalogSearchInput = document.getElementById('catalogSearchInput');
 const btnClearSearch = document.getElementById('btnClearSearch');
 const categoryFilterChips = document.getElementById('categoryFilterChips');
+const btnFilterDirect = document.getElementById('btnFilterDirect');
+
 
 const activeSimLabel = document.getElementById('activeSimLabel');
 const resultsCount = document.getElementById('resultsCount');
@@ -138,15 +141,26 @@ btnClearSearch.addEventListener('click', () => {
   renderCards();
 });
 
-// 4. Category Filter Chips
-categoryFilterChips.querySelectorAll('.chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    categoryFilterChips.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    currentCatFilter = chip.getAttribute('data-cat');
+// 4. Category Filter Buttons & Direct Download Toggle
+if (categoryFilterChips) {
+  categoryFilterChips.querySelectorAll('.category-panel-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      categoryFilterChips.querySelectorAll('.category-panel-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCatFilter = btn.getAttribute('data-cat') || 'all';
+      renderCards();
+    });
+  });
+}
+
+if (btnFilterDirect) {
+  btnFilterDirect.addEventListener('click', () => {
+    filterOnlyDirect = !filterOnlyDirect;
+    btnFilterDirect.classList.toggle('active', filterOnlyDirect);
     renderCards();
   });
-});
+}
+
 
 // 5. Presets in Custom Extract tab
 document.querySelectorAll('.preset-pill').forEach(pill => {
@@ -325,6 +339,52 @@ window.toggleArticle = function(slug) {
   }
 };
 
+// Category Helper & Detector
+function getItemCategory(item) {
+  if (item && item.category) {
+    const c = String(item.category).toLowerCase().trim();
+    if (c === 'aircraft' || c === 'misc' || c === 'scenery' || c === 'utilities') {
+      return c;
+    }
+  }
+  const title = (item && item.title ? item.title : '').toLowerCase();
+  const slug = (item && item.slug ? item.slug : '').toLowerCase();
+  if (slug.includes('airport') || slug.includes('scenery') || title.includes('airport') || title.includes('scenery') || slug.includes('helipads')) {
+    return 'scenery';
+  }
+  if (slug.includes('gsx') || slug.includes('flow') || slug.includes('chaseplane') || slug.includes('vraas') || slug.includes('missionhub') || slug.includes('atmos')) {
+    return 'utilities';
+  }
+  if (slug.includes('sound') || slug.includes('textures') || slug.includes('airac') || slug.includes('seasons') || slug.includes('earthfx') || slug.includes('shipping')) {
+    return 'misc';
+  }
+  return 'aircraft';
+}
+
+// Update Category Badge Counts on Sidebar
+function updateCategoryCounts(simAddons) {
+  const cAll = simAddons.length;
+  const cAircraft = simAddons.filter(item => getItemCategory(item) === 'aircraft').length;
+  const cMisc = simAddons.filter(item => getItemCategory(item) === 'misc').length;
+  const cScenery = simAddons.filter(item => getItemCategory(item) === 'scenery').length;
+  const cUtilities = simAddons.filter(item => getItemCategory(item) === 'utilities').length;
+  const cDirect = simAddons.filter(item => hasValidLinks(item)).length;
+
+  const elAll = document.getElementById('countCatAll');
+  const elAir = document.getElementById('countCatAircraft');
+  const elMisc = document.getElementById('countCatMisc');
+  const elScen = document.getElementById('countCatScenery');
+  const elUtil = document.getElementById('countCatUtilities');
+  const elDir = document.getElementById('countDirectLinks');
+
+  if (elAll) elAll.textContent = cAll;
+  if (elAir) elAir.textContent = cAircraft;
+  if (elMisc) elMisc.textContent = cMisc;
+  if (elScen) elScen.textContent = cScenery;
+  if (elUtil) elUtil.textContent = cUtilities;
+  if (elDir) elDir.textContent = cDirect;
+}
+
 // 7. Render Addon Cards
 function renderCards() {
   updateReportBanner();
@@ -332,39 +392,30 @@ function renderCards() {
 
   // Filter by active Simulator
   const simAddons = allAddons.filter(item => item.sim === currentSim);
+  updateCategoryCounts(simAddons);
 
-  // Filter by Search and Category
+  // Filter by Search, Category, and Direct Links
   const filtered = simAddons.filter(item => {
     const title = (item.title || '').toLowerCase();
     const slug = (item.slug || '').toLowerCase();
     const matchQuery = !query || title.includes(query) || slug.includes(query);
 
-    const matchLinks = hasValidLinks(item);
-
+    const itemCat = getItemCategory(item);
     let matchCat = true;
-    if (currentCatFilter === 'has_links') {
-      matchCat = matchLinks;
-    } else if (currentCatFilter === 'PMDG') {
-      matchCat = title.includes('pmdg') || slug.includes('pmdg');
-    } else if (currentCatFilter === 'Airbus') {
-      matchCat = title.includes('a3') || title.includes('fenix') || title.includes('toliss') || title.includes('airbus') || slug.includes('fenix') || slug.includes('toliss') || slug.includes('a3');
-    } else if (currentCatFilter === 'BlackSquare') {
-      matchCat = title.includes('black square') || slug.includes('bksq');
-    } else if (currentCatFilter === 'GA') {
-      matchCat = title.includes('comanche') || title.includes('bonanza') || title.includes('baron') || title.includes('learjet') || title.includes('da42') || title.includes('da40') || title.includes('aw139');
-    } else if (currentCatFilter === 'Military') {
-      matchCat = title.includes('jaguar') || title.includes('c-130') || title.includes('sr-71') || title.includes('vulcan') || title.includes('hawk');
-    } else if (currentCatFilter === 'Utility') {
-      matchCat = title.includes('gsx') || title.includes('chaseplane') || title.includes('flow') || title.includes('sound') || title.includes('airac') || title.includes('seasons') || title.includes('earth fx') || title.includes('scenery');
+    if (currentCatFilter !== 'all') {
+      matchCat = (itemCat === currentCatFilter);
     }
 
-    return matchQuery && matchCat;
+    const matchDirect = !filterOnlyDirect || hasValidLinks(item);
+
+    return matchQuery && matchCat && matchDirect;
   });
 
   filteredAddons = filtered;
   currentPage = 1;
   renderPage();
 }
+
 
 function renderPage() {
   const simAddons = allAddons.filter(item => item.sim === currentSim);
@@ -540,6 +591,7 @@ function createAddonCard(d) {
     ? `<span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">✅ ${validVersions.length} link download</span>`
     : `<span class="badge" style="background: rgba(255, 255, 255, 0.05); color: #94a3b8;">🔒 Yêu cầu đăng nhập</span>`;
 
+  const catName = getItemCategory(d).toUpperCase();
   const simBadgeText = SIM_NAMES[d.sim] || 'MSFS 2024';
 
   card.innerHTML = `
@@ -549,6 +601,7 @@ function createAddonCard(d) {
         <div class="addon-title">${escapeHtml(d.title)}</div>
         <div class="addon-meta">
           <span class="badge badge-sim">${escapeHtml(simBadgeText)}</span>
+          <span class="badge" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); text-transform: uppercase; font-size: 0.72rem; font-weight: 700;">${escapeHtml(catName)}</span>
           ${statusBadge}
           <span style="font-size: 0.75rem; color: #64748b; font-family: monospace;">${escapeHtml(d.slug || '')}</span>
         </div>
@@ -574,25 +627,13 @@ function createAddonCard(d) {
 
 // 8. Copy All Links for active view
 btnCopyAllRaw.addEventListener('click', () => {
-  const query = (catalogSearchInput.value || '').toLowerCase().trim();
-  const simAddons = allAddons.filter(item => item.sim === currentSim);
-  const filtered = simAddons.filter(item => {
-    const title = (item.title || '').toLowerCase();
-    const slug = (item.slug || '').toLowerCase();
-    const matchQuery = !query || title.includes(query) || slug.includes(query);
-    const hasLinks = item.versions && item.versions.length > 0;
-    let matchCat = true;
-    if (currentCatFilter === 'has_links') matchCat = hasLinks;
-    return matchQuery && matchCat;
-  });
-
   const allUrls = [];
-  filtered.forEach(r => {
+  filteredAddons.forEach(r => {
     if (r.versions) {
-      r.versions.forEach(v => { if (v.url) allUrls.push(v.url); });
+      r.versions.forEach(v => { if (v && v.url) allUrls.push(v.url); });
     }
     if (r.extra_links) {
-      r.extra_links.forEach(l => allUrls.push(l));
+      r.extra_links.forEach(l => { if (l) allUrls.push(l); });
     }
   });
 
@@ -602,8 +643,9 @@ btnCopyAllRaw.addEventListener('click', () => {
   }
 
   copyText(allUrls.join('\n'));
-  showToast(`Đã sao chép ${allUrls.length} link download của ${filtered.length} addon vào bộ nhớ tạm!`);
+  showToast(`Đã sao chép ${allUrls.length} link download của ${filteredAddons.length} addon vào bộ nhớ tạm!`);
 });
+
 
 // Helpers
 function setLoading(isLoading, text = "") {

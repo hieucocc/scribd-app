@@ -25,8 +25,9 @@ SLUGS_MSFS_2024 = [
   {"slug": "pmdg-77l", "title": "PMDG 777-200LR", "cat": "PMDG"},
   {"slug": "pmdg-dc6", "title": "PMDG DC-6", "cat": "PMDG"},
   {"slug": "fenix-a32x", "title": "Fenix Simulations A319, A320, A321 Bundle", "cat": "Airbus"},
-  {"slug": "synaptic-a220", "title": "Synaptic Simulations Airbus A220", "cat": "Airbus"},
+  {"slug": "bksq-caravan-amph-cargo", "title": "Black Square Caravan Amphibian and Cargo", "cat": "Aircraft"},
   {"slug": "ifly-737max8", "title": "iFly 737 MAX 8", "cat": "Airliner"},
+
   {"slug": "flysimware-learjet-35a", "title": "FlySimWare Learjet 35A", "cat": "Business Jet"},
   {"slug": "bksq-tbm-850", "title": "Black Square TBM 850", "cat": "Turboprop"},
   {"slug": "bksq-turbine-duke", "title": "Black Square Turbine Duke", "cat": "Turboprop"},
