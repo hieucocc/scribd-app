@@ -1213,9 +1213,15 @@
     "url": "https://web.archive.org/web/20260806012023/https://skybound.cx/msfs-2024/fslabs-controlcenter",
     "slug": "fslabs-controlcenter",
     "sim": "msfs-2024",
-    "title": "FSLabs A321ceo &amp; A321neo (FSLabs Control Center) - Microsoft Flight Simulator 2024",
+    "title": "FSLabs A321ceo & A321neo - Microsoft Flight Simulator 2024",
     "password": "https://skybound.cx",
-    "versions": [],
+    "versions": [
+      {
+        "versionNumber": "v2.0.1.152 (Buzzheavier)",
+        "downloadType": "link",
+        "url": "https://buzzheavier.com/1okzduuawrts"
+      }
+    ],
     "extra_links": [],
     "image": "https://web.archive.org/web/20260713163505im_/https://skybound.cx/api/media/file/fslabs-controlcenter-1400x770.png",
     "description": [
@@ -3381,5 +3387,37 @@
     "changelog": [
       "Changelog v1.7.02- fixed sim crash on replay - fixed reverser animation- fixed graphical and visual bugs (XP12)"
     ]
+  },
+  "fslabs-controlcenter-2020": {
+    "url": "https://web.archive.org/web/20260806012023/https://skybound.cx/msfs-2024/fslabs-controlcenter",
+    "slug": "fslabs-controlcenter",
+    "sim": "msfs-2020",
+    "title": "FSLabs A321ceo & A321neo - MSFS 2020 & 2024",
+    "password": "https://skybound.cx",
+    "versions": [
+      {
+        "versionNumber": "v2.0.1.152 (Buzzheavier)",
+        "downloadType": "link",
+        "url": "https://buzzheavier.com/1okzduuawrts"
+      }
+    ],
+    "extra_links": [],
+    "image": "https://web.archive.org/web/20260713163505im_/https://skybound.cx/api/media/file/fslabs-controlcenter-1400x770.png",
+    "description": [
+      "Cracked by retc3. Packaged by Sap.",
+      "File password: https://skybound.cx",
+      "PLEASE DO NOT SHARE OR UPLOAD ANY PART OF THIS FILE WITHOUT OUR EXPLICIT PERMISSION!!",
+      "This is a patched version of the FSLabs Control Center. You can use it to install the FSLabs A321ceo and A321neo for both MSFS 2020 and MSFS 2024."
+    ],
+    "features": [
+      "FSLabs A321ceo & A321neo (FSLabs Control Center)",
+      "The all new Airbus A321neo (Includes A321 Neo N and NX Variants, with LEAP-1A30, LEAP-1A32 and LEAP-1A33 Engines): Push the boundaries of next-gen simulation with the A321neo. Featuring both the N and NX variants, this aircraft is powered by high-bypass LEAP-1A engines that deliver improved efficiency and thrust. The fully modeled A321neo fuel and engine systems, with dynamic support of 1, 2 or 3 ACT configurations allowing you to fly Long Range (LR) operations for trans-continental trips, are accompanied by advanced flight dynamics, developed in close collaboration with real-world airline pilots. Experience a high-fidelity cockpit environment enhanced by the new Digital Radio and Audio Integrating Management System (DRAIMS), cutting-edge fly-by-wire logic with Soft GA, new Rotation Law with Electronic Tail Bumper protection, Flare Law, ROPS+, and all new sounds for completely immersive 3D audio.",
+      "Channel switching logic improvements",
+      "Improved \"Cabin Lite\" switching functionality"
+    ],
+    "changelog": [
+      "Changelog v2.0.1.152What's New in Version 2.0.1.148"
+    ],
+    "category": "aircraft"
   }
 }

@@ -26,16 +26,26 @@
           </svg>
         </div>
         <div>
-          <h1 class="app-title">Skybound Archive</h1>
-          <p class="app-subtitle">Kho lưu trữ & trích xuất link download Addon Flight Simulator</p>
+          <h1 class="app-title" data-i18n="app_title">Skybound Archive</h1>
+          <p class="app-subtitle" data-i18n="app_subtitle">Kho lưu trữ & trích xuất link download Addon Flight Simulator</p>
         </div>
       </div>
       <div class="header-badges">
-        <span class="status-pill"><span class="status-dot"></span> Sẵn sàng trực tuyến</span>
+        <!-- Language Switcher -->
+        <div class="lang-switch" role="group" aria-label="Language Selector">
+          <button type="button" class="lang-btn active" data-lang="vi" title="Tiếng Việt">
+            <span class="lang-flag">🇻🇳</span> VI
+          </button>
+          <button type="button" class="lang-btn" data-lang="en" title="English">
+            <span class="lang-flag">🇬🇧</span> EN
+          </button>
+        </div>
+
+        <span class="status-pill"><span class="status-dot"></span> <span data-i18n="status_online">Sẵn sàng trực tuyến</span></span>
         <span id="userBadge" class="status-pill user-badge hidden">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           <span class="user-name">admin</span>
-          <button id="btnLogout" class="btn-logout" title="Đăng xuất khỏi hệ thống">Đăng xuất</button>
+          <button id="btnLogout" class="btn-logout" title="Đăng xuất khỏi hệ thống" data-i18n-title="logout_title" data-i18n="logout">Đăng xuất</button>
         </span>
       </div>
     </header>
@@ -53,7 +63,7 @@
               <span class="sim-count" id="countMsfs2024">88 Addons</span>
             </div>
             <h3 class="sim-name">MSFS 2024</h3>
-            <p class="sim-desc">Airbus, Boeing PMDG, Black Square, Fenix & Tiện ích</p>
+            <p class="sim-desc" id="descMsfs2024" data-i18n="sim_msfs2024_desc">Airbus, Boeing PMDG, Black Square, Fenix & Tiện ích</p>
           </div>
 
           <div class="sim-card" data-sim="msfs-2020">
@@ -62,7 +72,7 @@
               <span class="sim-count" id="countMsfs2020">Addons</span>
             </div>
             <h3 class="sim-name">MSFS 2020</h3>
-            <p class="sim-desc">PMDG 777, TFDi MD-11, Soundpacks & FSLabs</p>
+            <p class="sim-desc" id="descMsfs2020" data-i18n="sim_msfs2020_desc">PMDG 777, TFDi MD-11, Soundpacks & FSLabs</p>
           </div>
 
           <div class="sim-card" data-sim="xplane-12">
@@ -71,7 +81,7 @@
               <span class="sim-count" id="countXplane12">Addons</span>
             </div>
             <h3 class="sim-name">X-Plane 12</h3>
-            <p class="sim-desc">ToLiss A319, A320, A321, A346 & Global Scenery</p>
+            <p class="sim-desc" id="descXplane12" data-i18n="sim_xplane12_desc">ToLiss A319, A320, A321, A346 & Global Scenery</p>
           </div>
         </div>
 
@@ -87,24 +97,25 @@
               id="catalogSearchInput" 
               class="search-input-field" 
               placeholder="Tìm kiếm máy bay, addon hoặc nhà phát triển (vd: PMDG, 737, Fenix, Learjet, TBM, ToLiss...)" 
+              data-i18n-placeholder="search_placeholder"
               spellcheck="false" 
               autocomplete="off"
             />
-            <button id="btnClearSearch" class="btn-clear-search hidden" type="button" title="Xoá tìm kiếm">✕</button>
+            <button id="btnClearSearch" class="btn-clear-search hidden" type="button" title="Xoá tìm kiếm" data-i18n-title="clear_search">✕</button>
           </div>
 
           <!-- Category Filter Chips (Under Search Box) -->
           <div id="categoryFilterChips" class="filter-chips">
-            <button class="chip active" data-cat="all" type="button">ALL ADDONS <span class="chip-count" id="countCatAll">88</span></button>
-            <button class="chip" data-cat="aircraft" type="button">AIRCRAFT <span class="chip-count" id="countCatAircraft">70</span></button>
-            <button class="chip" data-cat="misc" type="button">MISC <span class="chip-count" id="countCatMisc">8</span></button>
-            <button class="chip" data-cat="scenery" type="button">SCENERY <span class="chip-count" id="countCatScenery">4</span></button>
-            <button class="chip" data-cat="utilities" type="button">UTILITIES <span class="chip-count" id="countCatUtilities">6</span></button>
+            <button class="chip active" data-cat="all" type="button"><span data-i18n="cat_all">ALL ADDONS</span> <span class="chip-count" id="countCatAll">88</span></button>
+            <button class="chip" data-cat="aircraft" type="button"><span data-i18n="cat_aircraft">AIRCRAFT</span> <span class="chip-count" id="countCatAircraft">70</span></button>
+            <button class="chip" data-cat="misc" type="button"><span data-i18n="cat_misc">MISC</span> <span class="chip-count" id="countCatMisc">8</span></button>
+            <button class="chip" data-cat="scenery" type="button"><span data-i18n="cat_scenery">SCENERY</span> <span class="chip-count" id="countCatScenery">4</span></button>
+            <button class="chip" data-cat="utilities" type="button"><span data-i18n="cat_utilities">UTILITIES</span> <span class="chip-count" id="countCatUtilities">6</span></button>
           </div>
         </div>
 
-        <!-- Extraction Status Report Banner -->
-        <div class="report-banner card" id="reportBanner">
+        <!-- Extraction Status Report Banner (Hidden by default) -->
+        <div class="report-banner card hidden" id="reportBanner">
           <div class="report-summary" id="reportToggle">
             <div class="report-left">
               <div class="report-icon">
@@ -116,7 +127,7 @@
               </div>
               <div>
                 <div class="report-headline">
-                  Báo cáo trích xuất: <strong id="reportRatio" style="color: #34d399;">24 / 88 addon lấy được link</strong>
+                  <span data-i18n="report_prefix">Báo cáo trích xuất:</span> <strong id="reportRatio" style="color: #34d399;">24 / 88 addon lấy được link</strong>
                 </div>
                 <div class="report-sub" id="reportSubtext">
                   24 addon có link tải trực tiếp • 64 addon yêu cầu đăng nhập trên Skybound
@@ -124,7 +135,7 @@
               </div>
             </div>
             <button class="btn-report-toggle" type="button" id="btnToggleReport">
-              <span id="reportToggleText">Xem chi tiết</span>
+              <span id="reportToggleText" data-i18n="report_view_detail">Xem chi tiết</span>
               <svg class="arrow-icon" id="reportArrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
@@ -138,7 +149,7 @@
               <div class="report-col col-success">
                 <div class="col-header">
                   <span class="col-dot dot-green"></span>
-                  <span class="col-title">Lấy được link tải (<span id="countSuccess">0</span>)</span>
+                  <span class="col-title" id="titleSuccess">Lấy được link tải (<span id="countSuccess">0</span>)</span>
                 </div>
                 <div class="report-items-scroll" id="listSuccess"></div>
               </div>
@@ -147,7 +158,7 @@
               <div class="report-col col-locked">
                 <div class="col-header">
                   <span class="col-dot dot-gray"></span>
-                  <span class="col-title">Khóa đăng nhập Clerk (<span id="countLocked">0</span>)</span>
+                  <span class="col-title" id="titleLocked">Khóa đăng nhập Clerk (<span id="countLocked">0</span>)</span>
                 </div>
                 <div class="report-items-scroll" id="listLocked"></div>
               </div>
@@ -158,13 +169,17 @@
         <!-- Addons Results Header -->
         <div class="results-header-bar">
           <div class="results-info">
-            <h2 class="section-title">Danh sách bài viết (<span id="resultsCount">0</span>)</h2>
+            <h2 class="section-title"><span data-i18n="results_title">Danh sách bài viết</span> (<span id="resultsCount">0</span>)</h2>
             <span class="active-sim-badge" id="activeSimLabel">MSFS 2024</span>
           </div>
           <div class="results-actions">
-            <button id="btnCopyAllRaw" class="btn-secondary" type="button" title="Sao chép toàn bộ link đang hiển thị">
+            <button id="btnToggleReportBanner" class="btn-secondary" type="button" title="Hiện/ẩn khung báo cáo trích xuất" data-i18n-title="toggle_report_title">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              <span data-i18n="report_btn">Báo cáo</span>
+            </button>
+            <button id="btnCopyAllRaw" class="btn-secondary" type="button" title="Sao chép toàn bộ link đang hiển thị" data-i18n-title="copy_all_title">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              Sao chép tất cả link
+              <span data-i18n="copy_all">Sao chép tất cả link</span>
             </button>
           </div>
         </div>
@@ -176,9 +191,9 @@
 
         <!-- Pagination Controls -->
         <div id="paginationControls" class="pagination-controls hidden">
-          <button id="btnPrevPage" class="btn-secondary" type="button" disabled>Trang trước</button>
+          <button id="btnPrevPage" class="btn-secondary" type="button" disabled data-i18n="page_prev">Trang trước</button>
           <span id="pageInfo" class="page-info">Trang 1 / 1</span>
-          <button id="btnNextPage" class="btn-secondary" type="button">Trang sau</button>
+          <button id="btnNextPage" class="btn-secondary" type="button" data-i18n="page_next">Trang sau</button>
         </div>
 
       </section>
@@ -186,19 +201,19 @@
       <!-- VIEW 2: CUSTOM SINGLE EXTRACT -->
       <section id="customExtractView" class="view-section hidden">
         <div class="card input-card">
-          <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; margin-bottom: 8px;">Trích xuất link từ snapshot tuỳ ý</h3>
-          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 20px;">Dán bất kỳ liên kết snapshot nào của Skybound từ Wayback Machine để công cụ tự động bóc tách link download và mật khẩu.</p>
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; margin-bottom: 8px;" data-i18n="custom_extract_title">Trích xuất link từ snapshot tuỳ ý</h3>
+          <p style="font-size: 0.86rem; color: var(--text-muted); margin-bottom: 20px;" data-i18n="custom_extract_desc">Dán bất kỳ liên kết snapshot nào của Skybound từ Wayback Machine để công cụ tự động bóc tách link download và mật khẩu.</p>
           
           <div class="input-wrapper">
-            <input type="url" id="singleUrlInput" placeholder="Dán link archive.org (vd: https://web.archive.org/web/.../https://skybound.cx/...)" spellcheck="false" autocomplete="off" />
+            <input type="url" id="singleUrlInput" placeholder="Dán link archive.org (vd: https://web.archive.org/web/.../https://skybound.cx/...)" data-i18n-placeholder="custom_extract_placeholder" spellcheck="false" autocomplete="off" />
             <button id="btnExtractSingle" class="btn-primary" type="button">
-              <span class="btn-text">Trích xuất ngay</span>
+              <span class="btn-text" data-i18n="custom_extract_btn">Trích xuất ngay</span>
               <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
           </div>
 
           <div class="presets-row">
-            <span class="presets-label">Mẫu thử nhanh:</span>
+            <span class="presets-label" data-i18n="custom_samples">Mẫu thử nhanh:</span>
             <button type="button" class="preset-pill" data-url="https://web.archive.org/web/20260719040927/https://skybound.cx/msfs-2024/flysimware-learjet-35a">
               ✈️ Learjet 35A (Modsfire)
             </button>
@@ -212,25 +227,36 @@
       <!-- Loading Indicator -->
       <div id="loadingIndicator" class="loading-box hidden">
         <div class="spinner"></div>
-        <p id="loadingText">Đang tải dữ liệu...</p>
+        <p id="loadingText" data-i18n="loading_data">Đang tải dữ liệu...</p>
       </div>
     </main>
 
     <!-- Footer -->
     <footer class="app-footer">
-      <p>Skybound Archive Extractor • Hoạt động hoàn toàn tự động</p>
+      <p data-i18n="footer_text">Skybound Archive Extractor • Hoạt động hoàn toàn tự động</p>
     </footer>
   </div>
 
   <!-- Toast Notification -->
   <div id="toast" class="toast hidden">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-    <span id="toastMsg">Đã sao chép vào clipboard!</span>
+    <span id="toastMsg" data-i18n="toast_copied">Đã sao chép vào clipboard!</span>
   </div>
 
   <!-- Authentication Gate Modal -->
   <div id="authModalOverlay" class="auth-modal-overlay">
     <div class="auth-modal-card">
+      <div class="auth-modal-top-bar">
+        <div class="lang-switch" role="group" aria-label="Language Selector">
+          <button type="button" class="lang-btn active" data-lang="vi" title="Tiếng Việt">
+            <span class="lang-flag">🇻🇳</span> VI
+          </button>
+          <button type="button" class="lang-btn" data-lang="en" title="English">
+            <span class="lang-flag">🇬🇧</span> EN
+          </button>
+        </div>
+      </div>
+
       <div class="auth-modal-header">
         <div class="auth-icon-circle">
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -238,31 +264,31 @@
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
         </div>
-        <h2 class="auth-title">Xác thực quyền truy cập</h2>
-        <p class="auth-subtitle">Vui lòng đăng nhập để mở kho lưu trữ và trích xuất link addon.</p>
+        <h2 class="auth-title" data-i18n="auth_title">Xác thực quyền truy cập</h2>
+        <p class="auth-subtitle" data-i18n="auth_subtitle">Vui lòng đăng nhập để mở kho lưu trữ và trích xuất link addon.</p>
       </div>
 
       <form id="authForm" class="auth-form" autocomplete="on">
         <div class="auth-input-group">
-          <label for="authUsername" class="auth-label">Tài khoản</label>
+          <label for="authUsername" class="auth-label" data-i18n="auth_user_label">Tài khoản</label>
           <div class="auth-input-wrapper">
             <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <input type="text" id="authUsername" class="auth-input" placeholder="Tên đăng nhập (admin)" autocomplete="username" required autofocus>
+            <input type="text" id="authUsername" class="auth-input" placeholder="Tên đăng nhập (admin)" data-i18n-placeholder="auth_user_placeholder" autocomplete="username" required autofocus>
           </div>
         </div>
 
         <div class="auth-input-group">
-          <label for="authPassword" class="auth-label">Mật khẩu</label>
+          <label for="authPassword" class="auth-label" data-i18n="auth_pass_label">Mật khẩu</label>
           <div class="auth-input-wrapper">
             <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
             </svg>
-            <input type="password" id="authPassword" class="auth-input" placeholder="Mật khẩu truy cập" autocomplete="current-password" required>
-            <button type="button" id="btnToggleAuthPwd" class="btn-pwd-toggle" title="Hiện/ẩn mật khẩu">
+            <input type="password" id="authPassword" class="auth-input" placeholder="Mật khẩu truy cập" data-i18n-placeholder="auth_pass_placeholder" autocomplete="current-password" required>
+            <button type="button" id="btnToggleAuthPwd" class="btn-pwd-toggle" title="Hiện/ẩn mật khẩu" data-i18n-title="auth_pwd_toggle">
               <svg id="eyeOpenIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
               <svg id="eyeClosedIcon" class="hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
             </button>
@@ -271,11 +297,11 @@
 
         <div id="authErrorMsg" class="auth-error-msg hidden">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-          <span id="authErrorText">Tài khoản hoặc mật khẩu không chính xác!</span>
+          <span id="authErrorText" data-i18n="auth_error">Tài khoản hoặc mật khẩu không chính xác!</span>
         </div>
 
         <button type="submit" id="btnAuthSubmit" class="btn-auth-submit">
-          <span>Đăng nhập hệ thống</span>
+          <span data-i18n="auth_submit">Đăng nhập hệ thống</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
         </button>
       </form>

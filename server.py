@@ -99,7 +99,7 @@ SLUGS_MSFS_2024 = [
   {"slug": "baw-pmdg-737ng", "title": "BAW PMDG 737NG Soundpack", "cat": "Sound"},
   {"slug": "baw-pmdg-777", "title": "BAW PMDG 777 Soundpack", "cat": "Sound"},
   {"slug": "baw-aerosoft-crj", "title": "BAW Aerosoft CRJ Soundpack", "cat": "Sound"},
-  {"slug": "fslabs-controlcenter", "title": "FSLabs Control Center", "cat": "Utility"},
+  {"slug": "fslabs-controlcenter", "title": "FSLabs A321ceo & A321neo", "cat": "Airbus"},
   {"slug": "fsltl-downgraded-textures", "title": "FSLTL Downgraded Textures", "cat": "Utility"},
   {"slug": "land3-vraas", "title": "Land3 Virtual RAAS", "cat": "Utility"},
   {"slug": "nextgen-simulations-emb100", "title": "NextGen Simulations EMB-110", "cat": "Turboprop"},

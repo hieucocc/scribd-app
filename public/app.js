@@ -7,6 +7,228 @@ let filterOnlyDirect = false;
 let currentPage = 1;
 const ITEMS_PER_PAGE = 6;
 
+// i18n State & Dictionary
+let currentLang = localStorage.getItem('skybound_lang') || 'vi';
+
+const TRANSLATIONS = {
+  vi: {
+    page_title: "Skybound Archive - Kho Addon MSFS 2024, 2020 & X-Plane 12",
+    app_title: "Skybound Archive",
+    app_subtitle: "Kho lưu trữ & trích xuất link download Addon Flight Simulator",
+    status_online: "Sẵn sàng trực tuyến",
+    logout: "Đăng xuất",
+    logout_title: "Đăng xuất khỏi hệ thống",
+    sim_msfs2024_desc: "Airbus, Boeing PMDG, Black Square, Fenix & Tiện ích",
+    sim_msfs2020_desc: "PMDG 777, TFDi MD-11, Soundpacks & FSLabs",
+    sim_xplane12_desc: "ToLiss A319, A320, A321, A346 & Global Scenery",
+    search_placeholder: "Tìm kiếm máy bay, addon hoặc nhà phát triển (vd: PMDG, 737, Fenix, Learjet, TBM, ToLiss...)",
+    clear_search: "Xoá tìm kiếm",
+    cat_all: "ALL ADDONS",
+    cat_aircraft: "AIRCRAFT",
+    cat_misc: "MISC",
+    cat_scenery: "SCENERY",
+    cat_utilities: "UTILITIES",
+    report_prefix: "Báo cáo trích xuất:",
+    report_ratio: "{withLinks} / {total} addon lấy được link",
+    report_subtext: "{withLinks} addon có link tải trực tiếp • {locked} addon yêu cầu đăng nhập trên Skybound ({sim})",
+    report_view_detail: "Xem chi tiết",
+    report_collapse: "Thu gọn",
+    report_col_success: "Lấy được link tải",
+    report_col_locked: "Khóa đăng nhập Clerk",
+    report_badge_locked: "🔒 Cần đăng nhập",
+    report_badge_success: "{n} link ({host})",
+    report_btn: "Báo cáo",
+    toggle_report_title: "Hiện/ẩn khung báo cáo trích xuất",
+    results_title: "Danh sách bài viết",
+    copy_all: "Sao chép tất cả link",
+    copy_all_title: "Sao chép toàn bộ link đang hiển thị",
+    empty_title: "Không tìm thấy addon phù hợp",
+    empty_desc: "Hãy thử tìm từ khoá khác hoặc chọn lại danh mục \"Tất cả\".",
+    page_prev: "Trang trước",
+    page_next: "Trang sau",
+    page_info: "Trang {current} / {total}",
+    card_pass_label: "Pass:",
+    card_pass_copy: "Sao chép mật khẩu",
+    card_versions_title: "Danh sách Link Download",
+    card_open_link: "Mở link",
+    card_download_fallback: "Tải về",
+    card_locked_msg: "🔒 Link bài viết này được bảo vệ sau lớp đăng nhập Clerk trên trang gốc Skybound tại thời điểm lưu trữ.",
+    card_resources_title: "Tài nguyên & Link liên quan",
+    card_status_has_links: "✅ {n} link download",
+    card_status_locked: "🔒 Yêu cầu đăng nhập",
+    custom_extract_title: "Trích xuất link từ snapshot tuỳ ý",
+    custom_extract_desc: "Dán bất kỳ liên kết snapshot nào của Skybound từ Wayback Machine để công cụ tự động bóc tách link download và mật khẩu.",
+    custom_extract_placeholder: "Dán link archive.org (vd: https://web.archive.org/web/.../https://skybound.cx/...)",
+    custom_extract_btn: "Trích xuất ngay",
+    custom_samples: "Mẫu thử nhanh:",
+    loading_data: "Đang tải dữ liệu...",
+    loading_extracting: "Đang trích xuất snapshot...",
+    loading_archive: "Đang tải dữ liệu kho lưu trữ Skybound...",
+    footer_text: "Skybound Archive Extractor • Hoạt động hoàn toàn tự động",
+    toast_copied: "Đã sao chép vào bộ nhớ tạm!",
+    toast_no_links: "Không có link nào để sao chép trong danh sách hiện tại!",
+    toast_copied_all: "Đã sao chép {links} link download của {addons} addon vào bộ nhớ tạm!",
+    toast_enter_url: "Vui lòng nhập link Skybound!",
+    toast_extract_success: "Đã trích xuất thành công: {title}",
+    toast_extract_not_found: "Không tìm thấy link trong bài này!",
+    toast_extract_error: "Lỗi: {error}",
+    toast_logged_out: "Đã đăng xuất khỏi hệ thống.",
+    toast_login_success: "Đăng nhập thành công! Chào mừng admin.",
+    auth_title: "Xác thực quyền truy cập",
+    auth_subtitle: "Vui lòng đăng nhập để mở kho lưu trữ và trích xuất link addon.",
+    auth_user_label: "Tài khoản",
+    auth_user_placeholder: "Tên đăng nhập (admin)",
+    auth_pass_label: "Mật khẩu",
+    auth_pass_placeholder: "Mật khẩu truy cập",
+    auth_pwd_toggle: "Hiện/ẩn mật khẩu",
+    auth_error: "Tài khoản hoặc mật khẩu không chính xác!",
+    auth_submit: "Đăng nhập hệ thống",
+    addons_count_suffix: "Addons"
+  },
+  en: {
+    page_title: "Skybound Archive - MSFS 2024, 2020 & X-Plane 12 Addon Repository",
+    app_title: "Skybound Archive",
+    app_subtitle: "Flight Simulator Addon Archive & Direct Download Link Extractor",
+    status_online: "Online & Ready",
+    logout: "Log out",
+    logout_title: "Log out of system",
+    sim_msfs2024_desc: "Airbus, Boeing PMDG, Black Square, Fenix & Utilities",
+    sim_msfs2020_desc: "PMDG 777, TFDi MD-11, Soundpacks & FSLabs",
+    sim_xplane12_desc: "ToLiss A319, A320, A321, A346 & Global Scenery",
+    search_placeholder: "Search aircraft, addons or developers (e.g. PMDG, 737, Fenix, Learjet, TBM, ToLiss...)",
+    clear_search: "Clear search",
+    cat_all: "ALL ADDONS",
+    cat_aircraft: "AIRCRAFT",
+    cat_misc: "MISC",
+    cat_scenery: "SCENERY",
+    cat_utilities: "UTILITIES",
+    report_prefix: "Extraction Report:",
+    report_ratio: "{withLinks} / {total} addons with links found",
+    report_subtext: "{withLinks} direct download addons • {locked} addons require Skybound login ({sim})",
+    report_view_detail: "View details",
+    report_collapse: "Collapse",
+    report_col_success: "Download links extracted",
+    report_col_locked: "Clerk Login Protected",
+    report_badge_locked: "🔒 Login required",
+    report_badge_success: "{n} links ({host})",
+    report_btn: "Report",
+    toggle_report_title: "Show/hide extraction report banner",
+    results_title: "Articles list",
+    copy_all: "Copy all links",
+    copy_all_title: "Copy all currently displayed links",
+    empty_title: "No matching addons found",
+    empty_desc: "Try searching with different keywords or select the \"ALL ADDONS\" category.",
+    page_prev: "Previous",
+    page_next: "Next",
+    page_info: "Page {current} / {total}",
+    card_pass_label: "Pass:",
+    card_pass_copy: "Copy password",
+    card_versions_title: "Download Links",
+    card_open_link: "Open link",
+    card_download_fallback: "Download",
+    card_locked_msg: "🔒 Links for this article were protected behind Clerk authentication on the original Skybound snapshot at time of archiving.",
+    card_resources_title: "Resources & Related Links",
+    card_status_has_links: "✅ {n} download links",
+    card_status_locked: "🔒 Login required",
+    custom_extract_title: "Extract link from custom snapshot",
+    custom_extract_desc: "Paste any Skybound snapshot link from Wayback Machine to automatically extract download links and passwords.",
+    custom_extract_placeholder: "Paste archive.org link (e.g. https://web.archive.org/web/.../https://skybound.cx/...)",
+    custom_extract_btn: "Extract now",
+    custom_samples: "Quick presets:",
+    loading_data: "Loading data...",
+    loading_extracting: "Extracting snapshot...",
+    loading_archive: "Loading Skybound archive data...",
+    footer_text: "Skybound Archive Extractor • Fully automated",
+    toast_copied: "Copied to clipboard!",
+    toast_no_links: "No links available to copy in current view!",
+    toast_copied_all: "Copied {links} download links from {addons} addons to clipboard!",
+    toast_enter_url: "Please enter a Skybound link!",
+    toast_extract_success: "Successfully extracted: {title}",
+    toast_extract_not_found: "No links found in this article!",
+    toast_extract_error: "Error: {error}",
+    toast_logged_out: "Logged out of system.",
+    toast_login_success: "Login successful! Welcome admin.",
+    auth_title: "Access Authentication",
+    auth_subtitle: "Please log in to access the archive and extract addon links.",
+    auth_user_label: "Username",
+    auth_user_placeholder: "Username (admin)",
+    auth_pass_label: "Password",
+    auth_pass_placeholder: "Access password",
+    auth_pwd_toggle: "Show/hide password",
+    auth_error: "Incorrect username or password!",
+    auth_submit: "Sign in to system",
+    addons_count_suffix: "Addons"
+  }
+};
+
+function t(key, params = {}) {
+  const dict = TRANSLATIONS[currentLang] || TRANSLATIONS.vi;
+  let text = dict[key] || TRANSLATIONS.vi[key] || key;
+  for (const [k, v] of Object.entries(params)) {
+    text = text.replace(new RegExp(`\\{${k}\\}`, 'g'), v);
+  }
+  return text;
+}
+
+function setLanguage(lang) {
+  if (lang !== 'vi' && lang !== 'en') lang = 'vi';
+  currentLang = lang;
+  localStorage.setItem('skybound_lang', lang);
+  document.documentElement.lang = lang;
+
+  // Update page title
+  document.title = t('page_title');
+
+  // Update active state on all lang-switch buttons across header & modal
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+  });
+
+  // Update text for all elements with data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (key && TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) {
+      el.textContent = t(key);
+    }
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (key) el.setAttribute('placeholder', t(key));
+  });
+
+  // Update titles
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if (key) el.setAttribute('title', t(key));
+  });
+
+  // Update report details toggle text if present
+  if (reportToggleText && reportDetails) {
+    const isHidden = reportDetails.classList.contains('hidden');
+    reportToggleText.textContent = isHidden ? t('report_view_detail') : t('report_collapse');
+  }
+
+  // Update dynamic content
+  updateSimCounts();
+  if (allAddons.length > 0) {
+    updateReportBanner();
+    renderPage();
+  }
+}
+
+// Delegated listener for language switcher buttons
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.lang-btn');
+  if (btn) {
+    const lang = btn.getAttribute('data-lang');
+    if (lang) {
+      setLanguage(lang);
+    }
+  }
+});
+
 // Elements
 const tabSkybound = document.getElementById('tabSkybound');
 const tabCustomExtract = document.getElementById('tabCustomExtract');
@@ -81,6 +303,16 @@ reportToggle.addEventListener('click', (e) => {
   toggleReportDetails();
 });
 btnToggleReport.addEventListener('click', toggleReportDetails);
+
+const btnToggleReportBanner = document.getElementById('btnToggleReportBanner');
+if (btnToggleReportBanner && reportBanner) {
+  btnToggleReportBanner.addEventListener('click', () => {
+    const isHidden = reportBanner.classList.toggle('hidden');
+    if (!isHidden) {
+      reportBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+}
 
 const singleUrlInput = document.getElementById('singleUrlInput');
 const btnExtractSingle = document.getElementById('btnExtractSingle');
@@ -174,19 +406,19 @@ singleUrlInput.addEventListener('keydown', (e) => {
 async function triggerCustomExtract() {
   const url = singleUrlInput.value.trim();
   if (!url) {
-    showToast("Vui lòng nhập link Skybound!", true);
+    showToast(t('toast_enter_url'), true);
     singleUrlInput.focus();
     return;
   }
   
-  setLoading(true, "Đang trích xuất snapshot...");
+  setLoading(true, t('loading_extracting'));
   try {
     const resp = await fetch('/api/extract', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url })
     });
-    if (!resp.ok) throw new Error(`Mã lỗi HTTP ${resp.status}`);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = await resp.json();
     setLoading(false);
 
@@ -200,19 +432,19 @@ async function triggerCustomExtract() {
       // Switch back to Skybound tab and highlight
       tabSkybound.click();
       renderCards();
-      showToast(`Đã trích xuất thành công: ${item.title}`);
+      showToast(t('toast_extract_success', { title: item.title }));
     } else {
-      showToast("Không tìm thấy link trong bài này!", true);
+      showToast(t('toast_extract_not_found'), true);
     }
   } catch (err) {
     setLoading(false);
-    showToast(`Lỗi: ${err.message}`, true);
+    showToast(t('toast_extract_error', { error: err.message }), true);
   }
 }
 
 // 6. Load Pre-Extracted Data on Init
 async function initApp() {
-  setLoading(true, "Đang tải dữ liệu kho lưu trữ Skybound...");
+  setLoading(true, t('loading_archive'));
   try {
     const resp = await fetch('/extracted_cache.json');
     if (resp.ok) {
@@ -236,7 +468,7 @@ async function initApp() {
       renderCards();
     }
   } catch (err) {
-    console.warn("Lỗi tải cache:", err);
+    console.warn("Error loading cache:", err);
   } finally {
     setLoading(false);
   }
@@ -248,9 +480,10 @@ function updateSimCounts() {
   const c2020 = allAddons.filter(x => x.sim === 'msfs-2020').length;
   const cXp12 = allAddons.filter(x => x.sim === 'xplane-12').length;
 
-  if (countMsfs2024) countMsfs2024.textContent = `${c2024} Addons`;
-  if (countMsfs2020) countMsfs2020.textContent = `${c2020} Addons`;
-  if (countXplane12) countXplane12.textContent = `${cXp12} Addons`;
+  const suffix = t('addons_count_suffix');
+  if (countMsfs2024) countMsfs2024.textContent = `${c2024} ${suffix}`;
+  if (countMsfs2020) countMsfs2020.textContent = `${c2020} ${suffix}`;
+  if (countXplane12) countXplane12.textContent = `${cXp12} ${suffix}`;
 }
 
 function cleanDisplayName(title) {
@@ -276,11 +509,20 @@ function updateReportBanner() {
   const locked = simAddons.filter(item => !hasValidLinks(item));
 
   const simTitle = SIM_NAMES[currentSim] || currentSim;
-  reportRatio.textContent = `${withLinks.length} / ${simAddons.length} addon lấy được link`;
-  reportSubtext.textContent = `${withLinks.length} addon có link tải trực tiếp • ${locked.length} addon yêu cầu đăng nhập trên Skybound (${simTitle})`;
+  reportRatio.textContent = t('report_ratio', { withLinks: withLinks.length, total: simAddons.length });
+  reportSubtext.textContent = t('report_subtext', { withLinks: withLinks.length, locked: locked.length, sim: simTitle });
 
   countSuccess.textContent = withLinks.length;
   countLocked.textContent = locked.length;
+
+  const titleSuccess = document.getElementById('titleSuccess');
+  if (titleSuccess) {
+    titleSuccess.innerHTML = `${t('report_col_success')} (<span id="countSuccess">${withLinks.length}</span>)`;
+  }
+  const titleLocked = document.getElementById('titleLocked');
+  if (titleLocked) {
+    titleLocked.innerHTML = `${t('report_col_locked')} (<span id="countLocked">${locked.length}</span>)`;
+  }
 
   // Render list of success
   listSuccess.innerHTML = withLinks.map(item => {
@@ -289,10 +531,11 @@ function updateReportBanner() {
     const host = getHostname(firstUrl) || 'Download';
     const n = validVers.length + (item.extra_links ? item.extra_links.length : 0);
     const cleanName = cleanDisplayName(item.title) || item.title;
+    const badgeText = t('report_badge_success', { n, host });
     return `
       <div class="report-item-row" onclick="scrollToCard('${escapeQuotes(item.slug)}')" title="${escapeHtml(item.title)}">
         <span class="report-item-name">${escapeHtml(cleanName)}</span>
-        <span class="report-item-badge badge-success">${n} link (${host})</span>
+        <span class="report-item-badge badge-success">${escapeHtml(badgeText)}</span>
       </div>
     `;
   }).join('');
@@ -303,7 +546,7 @@ function updateReportBanner() {
     return `
       <div class="report-item-row" onclick="scrollToCard('${escapeQuotes(item.slug)}')" title="${escapeHtml(item.title)}">
         <span class="report-item-name">${escapeHtml(cleanName)}</span>
-        <span class="report-item-badge badge-locked">🔒 Cần đăng nhập</span>
+        <span class="report-item-badge badge-locked">${escapeHtml(t('report_badge_locked'))}</span>
       </div>
     `;
   }).join('');
@@ -330,7 +573,11 @@ window.toggleArticle = function(slug) {
     content.classList.toggle('open');
     const isOpen = content.classList.contains('open');
     if (arrow) arrow.classList.toggle('rotated', isOpen);
-    if (label) label.textContent = isOpen ? 'Thu gọn bài viết' : 'Xem chi tiết bài viết & Tính năng';
+    if (label) {
+      label.textContent = isOpen 
+        ? (currentLang === 'vi' ? 'Thu gọn bài viết' : 'Collapse article') 
+        : (currentLang === 'vi' ? 'Xem chi tiết bài viết & Tính năng' : 'View full article & Features');
+    }
   }
 };
 
@@ -420,8 +667,8 @@ function renderPage() {
   if (filteredAddons.length === 0) {
     cardsGrid.innerHTML = `
       <div class="card" style="text-align: center; padding: 48px 24px; color: var(--text-muted); grid-column: 1 / -1;">
-        <p style="font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 6px;">Không tìm thấy addon phù hợp</p>
-        <p style="font-size: 0.88rem; color: var(--text-sub);">Hãy thử tìm từ khoá khác hoặc chọn lại danh mục "Tất cả".</p>
+        <p style="font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 6px;">${escapeHtml(t('empty_title'))}</p>
+        <p style="font-size: 0.88rem; color: var(--text-sub);">${escapeHtml(t('empty_desc'))}</p>
       </div>
     `;
     if (paginationControls) paginationControls.classList.add('hidden');
@@ -444,9 +691,15 @@ function renderPage() {
   if (paginationControls) {
     if (totalPages > 1) {
       paginationControls.classList.remove('hidden');
-      pageInfo.textContent = `Trang ${currentPage} / ${totalPages}`;
-      btnPrevPage.disabled = currentPage === 1;
-      btnNextPage.disabled = currentPage === totalPages;
+      pageInfo.textContent = t('page_info', { current: currentPage, total: totalPages });
+      if (btnPrevPage) {
+        btnPrevPage.textContent = t('page_prev');
+        btnPrevPage.disabled = currentPage === 1;
+      }
+      if (btnNextPage) {
+        btnNextPage.textContent = t('page_next');
+        btnNextPage.disabled = currentPage === totalPages;
+      }
     } else {
       paginationControls.classList.add('hidden');
     }
@@ -479,7 +732,7 @@ function createAddonCard(d) {
   let versionsHtml = '';
   if (validVersions.length > 0) {
     versionsHtml = validVersions.map(v => {
-      const ver = escapeHtml(v.versionNumber || 'Tải về');
+      const ver = escapeHtml(v.versionNumber || t('card_download_fallback'));
       const link = escapeHtml(v.url.trim());
       const host = getHostname(v.url);
       return `
@@ -490,7 +743,7 @@ function createAddonCard(d) {
           </div>
           <div class="version-buttons">
             <a href="${link}" target="_blank" rel="noopener noreferrer" class="btn-action btn-open">
-              Mở link
+              ${escapeHtml(t('card_open_link'))}
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             </a>
           </div>
@@ -500,7 +753,7 @@ function createAddonCard(d) {
   } else {
     versionsHtml = `
       <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); padding: 12px 16px; border-radius: var(--radius-sm); font-size: 0.85rem; color: #fca5a5;">
-        🔒 Link bài viết này được bảo vệ sau lớp đăng nhập Clerk trên trang gốc Skybound tại thời điểm lưu trữ.
+        ${escapeHtml(t('card_locked_msg'))}
       </div>
     `;
   }
@@ -520,15 +773,15 @@ function createAddonCard(d) {
 
     extraHtml = `
       <div class="extra-section">
-        <div class="extra-title">Tài nguyên & Link liên quan</div>
+        <div class="extra-title">${escapeHtml(t('card_resources_title'))}</div>
         <div class="extra-links-list">${pills}</div>
       </div>
     `;
   }
 
   const statusBadge = hasLinks
-    ? `<span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">✅ ${validVersions.length} link download</span>`
-    : `<span class="badge" style="background: rgba(255, 255, 255, 0.05); color: #94a3b8;">🔒 Yêu cầu đăng nhập</span>`;
+    ? `<span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3);">${escapeHtml(t('card_status_has_links', { n: validVersions.length }))}</span>`
+    : `<span class="badge" style="background: rgba(255, 255, 255, 0.05); color: #94a3b8;">${escapeHtml(t('card_status_locked'))}</span>`;
 
   const catName = getItemCategory(d).toUpperCase();
   const simBadgeText = SIM_NAMES[d.sim] || 'MSFS 2024';
@@ -543,9 +796,9 @@ function createAddonCard(d) {
           <span class="badge" style="background: rgba(56, 189, 248, 0.12); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.25); text-transform: uppercase; font-size: 0.72rem; font-weight: 700;">${escapeHtml(catName)}</span>
           ${statusBadge}
           <div class="password-box">
-            <span class="password-label">Pass:</span>
+            <span class="password-label">${escapeHtml(t('card_pass_label'))}</span>
             <span class="password-value">${escapeHtml(d.password || 'https://skybound.cx')}</span>
-            <button class="btn-icon-copy" title="Sao chép mật khẩu" onclick="copyText('${escapeQuotes(d.password || 'https://skybound.cx')}')">
+            <button class="btn-icon-copy" title="${escapeHtml(t('card_pass_copy'))}" onclick="copyText('${escapeQuotes(d.password || 'https://skybound.cx')}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
           </div>
@@ -554,7 +807,7 @@ function createAddonCard(d) {
       </div>
     </div>
     <div class="addon-card-body">
-      <div class="versions-title">Danh sách Link Download</div>
+      <div class="versions-title">${escapeHtml(t('card_versions_title'))}</div>
       <div class="versions-list">${versionsHtml}</div>
       ${extraHtml}
     </div>
@@ -577,12 +830,12 @@ btnCopyAllRaw.addEventListener('click', () => {
   });
 
   if (allUrls.length === 0) {
-    showToast("Không có link nào để sao chép trong danh sách hiện tại!", true);
+    showToast(t('toast_no_links'), true);
     return;
   }
 
   copyText(allUrls.join('\n'));
-  showToast(`Đã sao chép ${allUrls.length} link download của ${filteredAddons.length} addon vào bộ nhớ tạm!`);
+  showToast(t('toast_copied_all', { links: allUrls.length, addons: filteredAddons.length }));
 });
 
 
@@ -590,7 +843,7 @@ btnCopyAllRaw.addEventListener('click', () => {
 function setLoading(isLoading, text = "") {
   if (isLoading) {
     loadingIndicator.classList.remove('hidden');
-    loadingText.textContent = text;
+    loadingText.textContent = text || t('loading_data');
   } else {
     loadingIndicator.classList.add('hidden');
   }
@@ -598,15 +851,15 @@ function setLoading(isLoading, text = "") {
 
 window.copyText = function(text) {
   navigator.clipboard.writeText(text).then(() => {
-    showToast("Đã sao chép vào bộ nhớ tạm!");
+    showToast(t('toast_copied'));
   }).catch(() => {
-    const t = document.createElement('textarea');
-    t.value = text;
-    document.body.appendChild(t);
-    t.select();
+    const tEl = document.createElement('textarea');
+    tEl.value = text;
+    document.body.appendChild(tEl);
+    tEl.select();
     document.execCommand('copy');
-    document.body.removeChild(t);
-    showToast("Đã sao chép vào bộ nhớ tạm!");
+    document.body.removeChild(tEl);
+    showToast(t('toast_copied'));
   });
 };
 
@@ -705,7 +958,7 @@ if (authForm) {
     if (u === AUTH_USER && p === AUTH_PASS) {
       localStorage.setItem(AUTH_STORAGE_KEY, 'authenticated_admin');
       hideAuthModal();
-      showToast("Đăng nhập thành công! Chào mừng admin.");
+      showToast(t('toast_login_success'));
       if (allAddons.length === 0) {
         initApp();
       }
@@ -724,15 +977,18 @@ if (btnLogout) {
     filteredAddons = [];
     cardsGrid.innerHTML = '';
     showAuthModal();
-    showToast("Đã đăng xuất khỏi hệ thống.");
+    showToast(t('toast_logged_out'));
   });
 }
 
-// Initial Boot Check
+// Initial Boot & Language Setup
+setLanguage(currentLang);
+
 if (isAuthenticated()) {
   hideAuthModal();
   initApp();
 } else {
   showAuthModal();
 }
+
 
