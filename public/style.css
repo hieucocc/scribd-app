@@ -123,6 +123,12 @@ body {
   margin-top: 2px;
 }
 
+.header-badges {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -132,8 +138,10 @@ body {
   color: var(--emerald);
   background: rgba(16, 185, 129, 0.1);
   border: 1px solid rgba(16, 185, 129, 0.25);
-  padding: 6px 14px;
+  padding: 0 14px;
+  height: 34px;
   border-radius: 20px;
+  box-sizing: border-box;
 }
 
 .status-dot {
@@ -1349,12 +1357,17 @@ input[type="url"]:focus {
   color: #c7d2fe !important;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding: 0 10px 0 14px;
+  height: 34px;
+  border-radius: 20px;
+  box-sizing: border-box;
 }
 
 .user-name {
   font-weight: 700;
   color: #fff;
+  font-size: 0.8rem;
 }
 
 .btn-logout {
@@ -1362,11 +1375,14 @@ input[type="url"]:focus {
   border: 1px solid rgba(239, 68, 68, 0.3);
   color: #fca5a5;
   cursor: pointer;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
   font-size: 0.72rem;
   font-weight: 600;
-  margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   transition: var(--transition);
 }
 
