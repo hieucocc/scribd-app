@@ -675,10 +675,30 @@ body {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.page-info {
+  font-size: 0.95rem;
+  color: var(--text-sub);
+  font-weight: 500;
+}
+
 /* Cards Grid */
 .cards-grid {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
@@ -1264,6 +1284,9 @@ input[type="url"]:focus {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
   .sim-selector-grid {
     grid-template-columns: 1fr;
   }

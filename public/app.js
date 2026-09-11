@@ -1,7 +1,10 @@
 // State
 let allAddons = [];
+let filteredAddons = [];
 let currentSim = 'msfs-2024';
 let currentCatFilter = 'all';
+let currentPage = 1;
+const ITEMS_PER_PAGE = 6;
 
 // Elements
 const tabSkybound = document.getElementById('tabSkybound');
@@ -22,6 +25,32 @@ const activeSimLabel = document.getElementById('activeSimLabel');
 const resultsCount = document.getElementById('resultsCount');
 const cardsGrid = document.getElementById('cardsGrid');
 const btnCopyAllRaw = document.getElementById('btnCopyAllRaw');
+
+const paginationControls = document.getElementById('paginationControls');
+const btnPrevPage = document.getElementById('btnPrevPage');
+const btnNextPage = document.getElementById('btnNextPage');
+const pageInfo = document.getElementById('pageInfo');
+
+if (btnPrevPage) {
+  btnPrevPage.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+}
+
+if (btnNextPage) {
+  btnNextPage.addEventListener('click', () => {
+    const totalPages = Math.ceil(filteredAddons.length / ITEMS_PER_PAGE);
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+}
 
 // Report elements
 const reportBanner = document.getElementById('reportBanner');
@@ -332,23 +361,50 @@ function renderCards() {
     return matchQuery && matchCat;
   });
 
-  resultsCount.textContent = `${filtered.length} / ${simAddons.length}`;
+  filteredAddons = filtered;
+  currentPage = 1;
+  renderPage();
+}
+
+function renderPage() {
+  const simAddons = allAddons.filter(item => item.sim === currentSim);
+  resultsCount.textContent = `${filteredAddons.length} / ${simAddons.length}`;
   cardsGrid.innerHTML = '';
 
-  if (filtered.length === 0) {
+  if (filteredAddons.length === 0) {
     cardsGrid.innerHTML = `
-      <div class="card" style="text-align: center; padding: 48px 24px; color: var(--text-muted);">
+      <div class="card" style="text-align: center; padding: 48px 24px; color: var(--text-muted); grid-column: 1 / -1;">
         <p style="font-size: 1.15rem; font-weight: 600; color: #fff; margin-bottom: 6px;">Không tìm thấy addon phù hợp</p>
         <p style="font-size: 0.88rem; color: var(--text-sub);">Hãy thử tìm từ khoá khác hoặc chọn lại danh mục "Tất cả".</p>
       </div>
     `;
+    if (paginationControls) paginationControls.classList.add('hidden');
     return;
   }
 
-  filtered.forEach(item => {
+  const totalPages = Math.ceil(filteredAddons.length / ITEMS_PER_PAGE);
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, filteredAddons.length);
+  const pageItems = filteredAddons.slice(startIndex, endIndex);
+
+  pageItems.forEach(item => {
     const card = createAddonCard(item);
     cardsGrid.appendChild(card);
   });
+
+  if (paginationControls) {
+    if (totalPages > 1) {
+      paginationControls.classList.remove('hidden');
+      pageInfo.textContent = `Trang ${currentPage} / ${totalPages}`;
+      btnPrevPage.disabled = currentPage === 1;
+      btnNextPage.disabled = currentPage === totalPages;
+    } else {
+      paginationControls.classList.add('hidden');
+    }
+  }
 }
 
 // Card Factory
