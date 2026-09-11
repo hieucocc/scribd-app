@@ -1,0 +1,157 @@
+{
+  "total": 132,
+  "alive_count": 115,
+  "dead_count": 11,
+  "cf_count": 6,
+  "dead_links": [
+    {
+      "slug": "flysimware-learjet-35a",
+      "title": "FlySimWare Learjet 35A - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "Pilot Manual",
+      "url": "https://flysimware.com/website2019/wp-content/uploads/2025/12/LEARJET_35A_MSFS_MANUAL_2024_V1.0.pdf",
+      "source": "version",
+      "dead_reason": "HTTP 404"
+    },
+    {
+      "slug": "fsdt-gsx-pro",
+      "title": "FSDT GSX Pro - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "4.0.5",
+      "url": "https://fileditchfiles.st/alpha17/601e0cbae9c2e246fcff/fsdreamteam-gsx-pro-202X_4.0.5.rar",
+      "source": "version",
+      "dead_reason": "HTTP 403"
+    },
+    {
+      "slug": "aerosoft-crj-v2",
+      "title": "Aerosoft CRJ V2 - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "Boris Audio Works Soundset",
+      "url": "https://skybound.cx/msfs-2024/baw-aerosoft-crj",
+      "source": "version",
+      "dead_reason": "HTTP 530"
+    },
+    {
+      "slug": "cows-da40",
+      "title": "COWS DA40 Series - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "Extra Link",
+      "url": "https://drive.google.com/drive/folders/137NEsqabeCeZio4A2Te-0uX5pm06O63D?usp=sharing",
+      "source": "extra",
+      "dead_reason": "Deleted/Removed (PAINTKIT - Google Drive)"
+    },
+    {
+      "slug": "cows-da42",
+      "title": "COWS DA42 Series - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "Extra Link",
+      "url": "https://drive.google.com/drive/folders/174_GxnFUCwXw9sCY5XhxWOkFCVl3E9y0",
+      "source": "extra",
+      "dead_reason": "Deleted/Removed (DA42PAINTKIT110 - Google Drive)"
+    },
+    {
+      "slug": "flysimware-lancair-legacy",
+      "title": "FlySimWare Lancair Legacy - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "Pilot Manual",
+      "url": "https://flysimware.com/website2019/wp-content/uploads/2026/06/LANCAIR_LEGACYSTARHAWK.pdf",
+      "source": "version",
+      "dead_reason": "HTTP 404"
+    },
+    {
+      "slug": "baw-aerosoft-crj-2020",
+      "title": "Boris Audio Works Aerosoft CRJ Soundpack - MSFS 2020",
+      "sim": "msfs-2020",
+      "version": "1.0",
+      "url": "https://modsfire.com/K817rE67vj653lM",
+      "source": "version",
+      "dead_reason": "HTTP 404 - Page Not Found"
+    },
+    {
+      "slug": "toliss-a319",
+      "title": "ToLiss Airbus A319 - X-Plane 12",
+      "sim": "xplane-12",
+      "version": "V1.9",
+      "url": "https://modsfire.com/1G6VzC0q82oQW88",
+      "source": "version",
+      "dead_reason": "HTTP 404 - Page Not Found"
+    },
+    {
+      "slug": "toliss-a320",
+      "title": "ToLiss Airbus A320 Neo - X-Plane 12",
+      "sim": "xplane-12",
+      "version": "V1.0.3",
+      "url": "https://modsfire.com/x46wIe00z8W5K6g",
+      "source": "version",
+      "dead_reason": "HTTP 404 - Page Not Found"
+    },
+    {
+      "slug": "toliss-a321",
+      "title": "ToLiss Airbus A321 & Neo - X-Plane 12",
+      "sim": "xplane-12",
+      "version": "V1.6.1",
+      "url": "https://modsfire.com/r84R714H9m3W0L4",
+      "source": "version",
+      "dead_reason": "HTTP 404 - Page Not Found"
+    },
+    {
+      "slug": "toliss-a346",
+      "title": "ToLiss Airbus A340-600 - X-Plane 12",
+      "sim": "xplane-12",
+      "version": "V1.3.1",
+      "url": "https://modsfire.com/978Jg1i0K1Y1yD4",
+      "source": "version",
+      "dead_reason": "HTTP 404 - Page Not Found"
+    }
+  ],
+  "cf_links": [
+    {
+      "slug": "fenix-a32x",
+      "title": "Fenix Simulations A319, A320, A321 Bundle - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "v2.4.0.4720 - Full Bundle (Buzzheavier)",
+      "url": "https://buzzheavier.com/9a3p2z72ffnz",
+      "source": "version"
+    },
+    {
+      "slug": "jf-f100-professional",
+      "title": "Just Flight F100 Professional - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "1.1 (0.1.1) - Part 1",
+      "url": "https://buzzheavier.com/38q3lqmz7fb4",
+      "source": "version"
+    },
+    {
+      "slug": "jf-f70-professional",
+      "title": "Just Flight F70 Professional - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "1.1 (0.1.1)",
+      "url": "https://buzzheavier.com/owzv036pfiti",
+      "source": "version"
+    },
+    {
+      "slug": "skyward-citation-c680",
+      "title": "Skyward Simulations Citation Sovereign+ - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "1.0.3",
+      "url": "https://buzzheavier.com/wqdnhx9kqab2",
+      "source": "version"
+    },
+    {
+      "slug": "skyward-citation-c680",
+      "title": "Skyward Simulations Citation Sovereign+ - Microsoft Flight Simulator 2024",
+      "sim": "msfs-2024",
+      "version": "1.0.2",
+      "url": "https://buzzheavier.com/gve4gskkvi48",
+      "source": "version"
+    },
+    {
+      "slug": "fenix-a32x-2020",
+      "title": "Fenix Simulations A319, A320, A321 Bundle - MSFS 2020 & 2024",
+      "sim": "msfs-2020",
+      "version": "v2.4.0.4720 - Full Bundle (Buzzheavier)",
+      "url": "https://buzzheavier.com/9a3p2z72ffnz",
+      "source": "version"
+    }
+  ]
+}
